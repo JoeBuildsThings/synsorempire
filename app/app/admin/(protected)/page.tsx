@@ -4,7 +4,6 @@ export default function AdminHome() {
   return (
     <div>
       <h1>Admin dashboard</h1>
-      <Link href="/admin/products">Manage products</Link>{" "}
       <Link href="/admin/products/new">Add product</Link>
     </div>
   );
