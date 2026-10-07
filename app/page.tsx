@@ -12,7 +12,9 @@ export default async function Home() {
   const [productsRes, categoriesRes] = await Promise.all([
     supabase
       .from("products")
-      .select("id, name, price_ngn, status, product_images(path, sort_order)")
+      .select(
+        "id, slug, code, name, price_ngn, status, featured, product_images(path, sort_order)"
+      )
       .eq("is_archived", false)
       .order("created_at", { ascending: false })
       .limit(24),
@@ -27,14 +29,17 @@ export default async function Home() {
     )[0];
     return {
       id: p.id,
+      slug: p.slug,
+      code: p.code,
       name: p.name,
       price_ngn: p.price_ngn,
       status: p.status,
+      featured: p.featured,
       image: first ? first.path : null,
     };
   });
   const categories = categoriesRes.data ?? [];
-  const heroProduct = products.find((p) => p.image) ?? null;
+  const heroProduct = products.find((p) => p.featured && p.image) ?? null;
   const orderLink = whatsappLink(`Hello ${site.name}, I want to order. `);
 
   return (
@@ -90,7 +95,7 @@ export default async function Home() {
         <div className="wrap">
           <h2 className="sectionTitle">New in</h2>
           <p className="sectionLead">
-            Tap order and your message to {site.name} is ready to send.
+            Tap a product for photos and sizes, or order straight on WhatsApp.
           </p>
           {products.length === 0 ? (
             <p className="empty">

@@ -22,3 +22,12 @@ export const categoryNotes: Record<string, string> = {
   bags: "Combo bags, fashion bags and more",
   essentials: "Socks, boxers and more",
 };
+export function orderMessage(name: string, code: string, status: string) {
+  if (status === "ask") {
+    return `Hello ${site.name}, is this available? ${name}, code ${code}. `;
+  }
+  if (status === "sold_out") {
+    return `Hello ${site.name}, do you have items like ${name}, code ${code}? `;
+  }
+  return `Hello ${site.name}, I want to order ${name}, code ${code}. Please confirm size, price and delivery. `;
+}

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import WhatsAppFloat from "./WhatsAppFloat";
 import { site, whatsappLink } from "@/lib/site";
 
 export default function SiteShell({ children }: { children: React.ReactNode }) {
@@ -52,6 +53,7 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
           </div>
         </div>
       </footer>
+            <WhatsAppFloat />
     </>
   );
 }

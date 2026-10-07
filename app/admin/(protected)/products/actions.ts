@@ -124,3 +124,63 @@ export async function createProduct(input: NewProduct) {
     };
   }
 }
+
+export async function setArchived(productId: string, archived: boolean) {
+  try {
+    const supabase = await requireAdmin();
+    const { error } = await supabase
+      .from("products")
+      .update({ is_archived: archived, updated_at: new Date().toISOString() })
+      .eq("id", productId);
+    if (error) return { ok: false, error: error.message };
+    revalidatePath("/");
+    revalidatePath("/shop");
+    revalidatePath("/admin/products");
+    return { ok: true };
+  } catch (e) {
+    return {
+      ok: false,
+      error: e instanceof Error ? e.message : "Something went wrong.",
+    };
+  }
+}
+
+export async function deleteProduct(productId: string) {
+  try {
+    const supabase = await requireAdmin();
+
+    const { data: images } = await supabase
+      .from("product_images")
+      .select("path")
+      .eq("product_id", productId);
+
+    const { error } = await supabase
+      .from("products")
+      .delete()
+      .eq("id", productId);
+    if (error) return { ok: false, error: error.message };
+
+    const ids = (images ?? [])
+      .map((i) => i.path)
+      .filter((id) => id.startsWith(`${FOLDER}/`));
+
+    let cleaned = true;
+    if (ids.length > 0) {
+      try {
+        await cloudinary.api.delete_resources(ids);
+      } catch {
+        cleaned = false;
+      }
+    }
+
+    revalidatePath("/");
+    revalidatePath("/shop");
+    revalidatePath("/admin/products");
+    return { ok: true, cleaned };
+  } catch (e) {
+    return {
+      ok: false,
+      error: e instanceof Error ? e.message : "Something went wrong.",
+    };
+  }
+}
