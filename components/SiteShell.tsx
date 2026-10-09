@@ -53,7 +53,7 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
           </div>
         </div>
       </footer>
-            <WhatsAppFloat />
+      <WhatsAppFloat />
     </>
   );
 }

@@ -1,6 +1,13 @@
+import type { Metadata } from "next";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { logout } from "../login/actions";
+
+export const metadata: Metadata = {
+  title: "Admin",
+  robots: { index: false, follow: false },
+};
 
 export default async function ProtectedLayout({
   children,
@@ -18,12 +25,24 @@ export default async function ProtectedLayout({
   if (!isAdmin) redirect("/admin/login");
 
   return (
-    <div>
-      <p>Logged in as {user.email}</p>
-      <form action={logout}>
-        <button type="submit">Log out</button>
-      </form>
-      {children}
-    </div>
+    <>
+      <header className="adminBar onDark">
+        <div className="wrap adminBarRow">
+          <nav className="adminNav" aria-label="Admin">
+            <Link href="/admin">Dashboard</Link>
+            <Link href="/admin/products">Products</Link>
+            <Link href="/admin/products/new">Add product</Link>
+            <Link href="/">View site</Link>
+          </nav>
+          <form action={logout} className="adminUser">
+            <span>{user.email} </span>
+            <button type="submit" className="btn btnSmall btnGhost">
+              Log out
+            </button>
+          </form>
+        </div>
+      </header>
+      <main className="wrap adminMain">{children}</main>
+    </>
   );
 }

@@ -17,6 +17,10 @@ const description =
   "Shop corporate wear, formal shoes, sneakers, streetwear, caps, belts, bags and essentials in Ibadan, Ogunpa. Message us on WhatsApp to order.";
 
 export const metadata: Metadata = {
+  metadataBase: process.env.NEXT_PUBLIC_SITE_URL
+    ? new URL(process.env.NEXT_PUBLIC_SITE_URL)
+    : undefined,
+  verification: { google: process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION },
   title: {
     default: "Synsorempire | Corporate wear, footwear and streetwear",
     template: "%s | Synsorempire",

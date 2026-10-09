@@ -66,7 +66,7 @@ export default function ProductCard({
       {status !== "sold_out" && (
         <a
           className="btn btnSmall"
-          href={whatsappLink(orderMessage(name, code, status))}
+          href={whatsappLink(orderMessage(name, code, status, slug))}
           target="_blank"
           rel="noopener noreferrer"
         >

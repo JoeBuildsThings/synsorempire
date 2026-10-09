@@ -41,6 +41,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: product.name,
     description,
+    alternates: { canonical: `/product/${slug}` },
     openGraph: {
       title: product.name,
       description,
@@ -71,7 +72,12 @@ export default async function ProductPage({ params }: Props) {
     | null;
   const categoryName = Array.isArray(rel) ? rel[0]?.name : rel?.name;
 
-  const message = orderMessage(product.name, product.code, status);
+  const message = orderMessage(
+    product.name,
+    product.code,
+    status,
+    product.slug
+  );
   const cta =
     status === "ask"
       ? "Ask availability on WhatsApp"

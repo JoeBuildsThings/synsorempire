@@ -5,6 +5,7 @@ import { imageUrl } from "@/lib/images";
 import { site, whatsappLink, categoryNotes } from "@/lib/site";
 
 export const revalidate = 300;
+export const metadata = { alternates: { canonical: "/" } };
 
 export default async function Home() {
   const supabase = createPublicClient();

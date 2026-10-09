@@ -9,9 +9,9 @@ export default async function NewProductPage() {
     .order("sort_order");
 
   return (
-    <main>
-      <h1>Add product</h1>
+    <div>
+      <h1 className="adminTitle">Add product</h1>
       <ProductForm categories={categories ?? []} />
-    </main>
+    </div>
   );
 }

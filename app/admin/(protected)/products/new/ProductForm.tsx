@@ -2,17 +2,18 @@
 
 import { useState } from "react";
 import imageCompression from "browser-image-compression";
+import ProductFields, { type Category } from "@/components/admin/ProductFields";
 import { getUploadSignature, createProduct } from "../actions";
 
-type Category = { id: string; name: string };
-
-export default function ProductForm({
-  categories,
-}: {
-  categories: Category[];
-}) {
+export default function ProductForm({ categories }: { categories: Category[] }) {
   const [message, setMessage] = useState("");
+  const [bad, setBad] = useState(false);
   const [busy, setBusy] = useState(false);
+
+  function say(text: string, isBad = false) {
+    setMessage(text);
+    setBad(isBad);
+  }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -21,20 +22,16 @@ export default function ProductForm({
 
     const files = (form.getAll("photos") as File[]).filter((f) => f.size > 0);
     if (files.length < 1 || files.length > 8) {
-      setMessage("Choose between 1 and 8 photos.");
+      say("Choose between 1 and 8 photos.", true);
       return;
     }
-    if (
-      files.some(
-        (f) => !f.type.startsWith("image/") || f.size > 15 * 1024 * 1024
-      )
-    ) {
-      setMessage("Photos only, each under 15 MB.");
+    if (files.some((f) => !f.type.startsWith("image/") || f.size > 15 * 1024 * 1024)) {
+      say("Photos only, each under 15 MB.", true);
       return;
     }
 
     setBusy(true);
-    setMessage("Compressing and uploading photos...");
+    say("Compressing and uploading photos...");
 
     try {
       const sig = await getUploadSignature();
@@ -46,7 +43,6 @@ export default function ProductForm({
           maxWidthOrHeight: 1600,
           useWebWorker: true,
         });
-
         const body = new FormData();
         body.append("file", small);
         body.append("api_key", sig.apiKey);
@@ -65,8 +61,7 @@ export default function ProductForm({
         imageIds.push(json.public_id);
       }
 
-      setMessage("Saving product...");
-
+      say("Saving product...");
       const rawPrice = String(form.get("price") ?? "").trim();
       const result = await createProduct({
         name: String(form.get("name") ?? ""),
@@ -79,84 +74,35 @@ export default function ProductForm({
           .split(",")
           .map((s) => s.trim())
           .filter(Boolean),
+        featured: form.get("featured") === "on",
         imageIds,
       });
 
       if (result.ok) {
         formEl.reset();
-        setMessage("Product saved. Check the home page.");
+        say("Product saved. It is on the home page now.");
       } else {
-        setMessage(result.error ?? "Could not save.");
+        say(result.error ?? "Could not save.", true);
       }
     } catch (err) {
-      setMessage(err instanceof Error ? err.message : "Something went wrong.");
+      say(err instanceof Error ? err.message : "Something went wrong.", true);
     } finally {
       setBusy(false);
     }
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <p>
-        <label>
-          Name <input name="name" required />
-        </label>
-      </p>
-      <p>
-        <label>
-          Category{" "}
-          <select name="category" required defaultValue="">
-            <option value="" disabled>
-              Choose
-            </option>
-            {categories.map((c) => (
-              <option key={c.id} value={c.id}>
-                {c.name}
-              </option>
-            ))}
-          </select>
-        </label>
-      </p>
-      <p>
-        <label>
-          Type, for example Hoodies <input name="subcategory" />
-        </label>
-      </p>
-      <p>
-        <label>
-          Price in naira, leave empty for message for price{" "}
-          <input name="price" type="number" min="0" step="1" />
-        </label>
-      </p>
-      <p>
-        <label>
-          Status{" "}
-          <select name="status" defaultValue="available">
-            <option value="available">Available</option>
-            <option value="sold_out">Sold out</option>
-            <option value="ask">Ask us</option>
-          </select>
-        </label>
-      </p>
-      <p>
-        <label>
-          Sizes, separated by commas <input name="sizes" />
-        </label>
-      </p>
-      <p>
-        <label>
-          Description <textarea name="description" />
-        </label>
-      </p>
-      <p>
-        <label>
-          Photos <input name="photos" type="file" accept="image/*" multiple />
-        </label>
-      </p>
-      <button type="submit" disabled={busy}>
+    <form onSubmit={handleSubmit} className="adminCard">
+      <ProductFields categories={categories} />
+      <div className="field">
+        <label htmlFor="photos">Photos</label>
+        <input id="photos" name="photos" type="file" accept="image/*" multiple />
+        <span className="hint">Boss Upload Up to 8. The first one is the main photo.</span>
+      </div>
+      <button type="submit" className="btn btnPrimary" disabled={busy}>
         {busy ? "Working..." : "Save product"}
       </button>
-      <p>{message}</p>
+      {message && <p className={bad ? "msg msgBad" : "msg"}>{message}</p>}
     </form>
   );
 }

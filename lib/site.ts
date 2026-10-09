@@ -22,12 +22,24 @@ export const categoryNotes: Record<string, string> = {
   bags: "Combo bags, fashion bags and more",
   essentials: "Socks, boxers and more",
 };
-export function orderMessage(name: string, code: string, status: string) {
+
+function productUrl(slug: string) {
+  const base = process.env.NEXT_PUBLIC_SITE_URL;
+  return base ? ` ${base.replace(/\/$/, "")}/product/${slug}` : "";
+}
+
+export function orderMessage(
+  name: string,
+  code: string,
+  status: string,
+  slug: string
+) {
+  const link = productUrl(slug);
   if (status === "ask") {
-    return `Hello ${site.name}, is this available? ${name}, code ${code}. `;
+    return `Hello ${site.name}, is this available? ${name}, code ${code}.${link} `;
   }
   if (status === "sold_out") {
-    return `Hello ${site.name}, do you have items like ${name}, code ${code}? `;
+    return `Hello ${site.name}, do you have items like ${name}, code ${code}?${link} `;
   }
-  return `Hello ${site.name}, I want to order ${name}, code ${code}. Please confirm size, price and delivery. `;
+  return `Hello ${site.name}, I want to order ${name}, code ${code}. Please confirm size, price and delivery.${link} `;
 }
