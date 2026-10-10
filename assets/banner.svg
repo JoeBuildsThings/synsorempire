@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 240" width="900" height="240" role="img" aria-label="Synsorempire, corporate wear, footwear and streetwear">
+  <style>
+    .mark { transform-origin: 32px 32px; animation: pulse 3s ease-in-out infinite; }
+    .bag { transform-origin: 800px 88px; animation: swing 3.4s ease-in-out infinite; }
+    .tag { animation: rise 4s ease-in infinite; opacity: 0; }
+    .t2 { animation-delay: 1.3s; }
+    .t3 { animation-delay: 2.6s; }
+    @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+    @keyframes swing { 0%, 100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg); } }
+    @keyframes rise { 0% { transform: translateY(26px); opacity: 0; } 20% { opacity: 1; } 80% { opacity: 1; } 100% { transform: translateY(-34px); opacity: 0; } }
+    @media (prefers-reduced-motion: reduce) { .mark, .bag, .tag { animation: none; } .tag { opacity: 1; } }
+  </style>
+  <rect width="900" height="240" rx="18" fill="#0f3d24"/>
+  <g transform="translate(50 50) scale(2)">
+  <g class="mark">
+    <polygon points="20,2 44,2 62,20 62,44 44,62 20,62 2,44 2,20" transform="translate(3 3)" fill="#fd6cc6"/>
+    <polygon points="20,2 44,2 62,20 62,44 44,62 20,62 2,44 2,20" fill="#93c554"/>
+    <polygon points="22,8 42,8 56,22 56,42 42,56 22,56 8,42 8,22" fill="#0f3d24"/>
+    <text x="32" y="46" text-anchor="middle" font-family="Arial Black, Arial, sans-serif" font-size="40" font-weight="900" fill="#93c554">S</text>
+  </g>
+  </g>
+  <g font-family="Arial Black, Arial, sans-serif" font-weight="900">
+    <text x="223" y="123" font-size="62" fill="#fd6cc6">Synsorempire</text>
+    <text x="220" y="120" font-size="62" fill="#ffffff">Synsorempire</text>
+  </g>
+  <text x="222" y="162" font-family="Arial, sans-serif" font-size="22" fill="#cfe3d3">Corporate wear, footwear and streetwear</text>
+  <text x="222" y="196" font-family="Arial, sans-serif" font-size="18" fill="#93c554">Ibadan, Ogunpa</text>
+  <g class="tag" font-family="Arial, sans-serif" font-size="13" font-weight="700">
+    <rect x="700" y="70" width="64" height="24" rx="6" fill="#fd6cc6"/>
+    <text x="732" y="86" text-anchor="middle" fill="#0f3d24">SYN0001</text>
+  </g>
+  <g class="tag t2" font-family="Arial, sans-serif" font-size="13" font-weight="700">
+    <rect x="836" y="86" width="64" height="24" rx="6" fill="#93c554"/>
+    <text x="868" y="102" text-anchor="middle" fill="#0f3d24">SYN0002</text>
+  </g>
+  <g class="tag t3" font-family="Arial, sans-serif" font-size="13" font-weight="700">
+    <rect x="768" y="40" width="64" height="24" rx="6" fill="#ffffff"/>
+    <text x="800" y="56" text-anchor="middle" fill="#0f3d24">SYN0003</text>
+  </g>
+  <g class="bag">
+    <path d="M758 112 h84 l9 74 a7 7 0 0 1 -7 8 h-88 a7 7 0 0 1 -7 -8 z" fill="#93c554"/>
+    <path d="M781 112 v-14 a19 19 0 0 1 38 0 v14" fill="none" stroke="#fd6cc6" stroke-width="6" stroke-linecap="round"/>
+    <polygon points="786,146 794,138 806,138 814,146 814,158 806,166 794,166 786,158" fill="#0f3d24"/>
+  </g>
+</svg>
