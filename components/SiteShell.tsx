@@ -1,4 +1,5 @@
 import Link from "next/link";
+import LogoMark from "./LogoMark";
 import WhatsAppFloat from "./WhatsAppFloat";
 import { site, whatsappLink } from "@/lib/site";
 
@@ -11,8 +12,9 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
       </a>
       <header className="siteHeader onDark">
         <div className="wrap headerRow">
-          <Link className="wordmark" href="/">
-            {site.name}
+          <Link className="brand" href="/" aria-label={`${site.name} home`}>
+            <LogoMark size={38} />
+            <span className="wordmark">{site.name}</span>
           </Link>
           <nav className="headerNav" aria-label="Main">
             <Link href="/#latest">New in</Link>
@@ -34,7 +36,10 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
       <footer className="footer">
         <div className="wrap footerGrid">
           <div>
-            <h2>{site.name}</h2>
+            <div className="footerBrand">
+              <LogoMark size={44} />
+              <span className="wordmark">{site.name}</span>
+            </div>
             <p>{site.location}</p>
             <p>{site.paymentPolicy}</p>
           </div>

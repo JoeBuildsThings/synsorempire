@@ -1,0 +1,3 @@
+.brand { display: inline-flex; align-items: center; gap: .6rem; text-decoration: none; }
+.footerBrand { display: inline-flex; align-items: center; gap: .7rem; margin-bottom: .75rem; }
+.footerBrand .wordmark { font-size: 1.15rem; }

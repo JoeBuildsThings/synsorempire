@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Unbounded, Figtree } from "next/font/google";
 import "./globals.css";
+import "./brand.css";
 
 const display = Unbounded({
   subsets: ["latin"],
